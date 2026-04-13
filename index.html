@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umaima's Coffee Shop</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">☕ Umaima's</div>
+        <button class="nav-btn active" onclick="showSection('home')">
+            <i class="fas fa-coffee"></i> Menu
+        </button>
+        <button class="nav-btn" onclick="showSection('orders')">
+            <i class="fas fa-list-alt"></i> Live Orders
+        </button>
+        <div class="footer-info">
+            <p>WhatsApp Bot Active</p>
+            <small>+1 415 523 8886</small>
+        </div>
+    </div>
+
+    <div class="main-content">
+        
+        <div id="home" class="section active-section">
+            <header class="top-header">
+                <h1>Umaima's Coffee Shop</h1>
+                <p>Brewed with Love & AI</p>
+            </header>
+
+            <div class="menu-grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&q=80" alt="Espresso">
+                    <div class="card-info">
+                        <h3>Espresso</h3>
+                        <p class="desc">Strong, bold energy.</p>
+                        <p class="price">400 PKR</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80" alt="Latte">
+                    <div class="card-info">
+                        <h3>Latte</h3>
+                        <p class="desc">Creamy milk & happiness.</p>
+                        <p class="price">450 PKR</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80" alt="Cappuccino">
+                    <div class="card-info">
+                        <h3>Cappuccino</h3>
+                        <p class="desc">Frothy chocolate perfection.</p>
+                        <p class="price">500 PKR</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="orders" class="section" style="display: none;">
+            <header class="top-header">
+                <h1>Incoming Orders</h1>
+                <p>Real-time data from WhatsApp</p>
+            </header>
+
+            <div class="table-container">
+                {% if orders %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Item</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in orders %}
+                        <tr>
+                            <td>{{ row.get('Date', '') }}</td>
+                            <td class="highlight">{{ row.get('Order', '') }}</td>
+                            <td>{{ row.get('Name', '') }}</td>
+                            <td>{{ row.get('Address', '') }}</td>
+                            
+                            <td>
+                                {% if row.get('Status', 'Pending') == 'Completed' %}
+                                    <span class="status-badge" style="background: #1565c0;">Completed</span>
+                                {% else %}
+                                    <span class="status-badge" style="background: #2e7d32;">Pending</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No orders yet. Waiting for customers...</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('orders').style.display = 'none';
+            
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Update buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
