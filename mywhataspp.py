@@ -44,7 +44,7 @@ async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "orders": orders_data})
 
 # --- 4. AI SETUP ---
-GROQ_API_KEY="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"
+GROQ_API_KEY="api key"
 
 llm = None
 if GROQ_API_KEY:
